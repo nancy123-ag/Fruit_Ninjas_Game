@@ -18,10 +18,10 @@ cut_sound  = pygame.mixer.Sound("cut.mp3")
 bomb_sound = pygame.mixer.Sound("bomb.mp3")
 
 # ── MONGODB ──────────────────────────────────────────────────────────────────
-uri = "mongodb+srv://emoheal_user:Emoheal123@cluster0.hwezm4z.mongodb.net/?retryWrites=true&w=majority"
-client     = MongoClient(uri)
-db         = client["emohealDB"]
-collection = db["game_data"]
+uri = ""
+client     = 
+db         = 
+collection = 
 
 current_emotion = "happy"
 current_song    = "Calm Music"
