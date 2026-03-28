@@ -127,16 +127,33 @@ data = {}
 
 def generate_random_fruits(fruit):
     fruit_path = "images/" + fruit + ".png"
+    side = random.choice(['left', 'right', 'center'])
+
+    if side == 'left':
+         
+         x = random.randint(0, WIDTH//3)
+         speed_x = random.randint(5, 15)
+
+    elif  side == 'right':
+
+        x = random.randint(2*WIDTH//3, WIDTH-100)
+        speed_x = random.randint(-15, -5)
+
+    else: 
+     # center
+        x = random.randint(WIDTH//3, 2*WIDTH//3)
+        speed_x = random.randint(-10, 10)
+
     data[fruit] = {
-        'img'    : pygame.image.load(fruit_path),
-        'x'      : random.randint(100, 500),
-        'y'      : 800,
-        'speed_x': random.randint(-10, 10),
-        'speed_y': random.randint(-80, -60),
-        'throw'  : random.random() >= 0.75,
-        't'      : 0,
-        'hit'    : False,
-    }
+    'img'    : pygame.image.load(fruit_path),
+    'x'      : x,
+    'y'      : HEIGHT,
+    'speed_x': speed_x,
+    'speed_y': random.randint(-80, -60),
+    'throw'  : random.random() >= 0.5,   # thoda zyada fruits aayenge
+    't'      : 0,
+    'hit'    : False,
+}
 
 for fruit in fruits:
     generate_random_fruits(fruit)
