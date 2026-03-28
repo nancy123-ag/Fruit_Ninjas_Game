@@ -18,7 +18,7 @@ cut_sound  = pygame.mixer.Sound("cut.mp3")
 bomb_sound = pygame.mixer.Sound("bomb.mp3")
 
 # ── MONGODB ──────────────────────────────────────────────────────────────────
-uri = ""
+uri = 
 client     = 
 db         = 
 collection = 
@@ -173,8 +173,12 @@ def show_start_screen():
     CX   = WIDTH  // 2
     BW, BH = int(WIDTH * 0.22), int(HEIGHT * 0.09)   # button size % of screen
 
-    btn_play = Button("  Play Game", CX, int(HEIGHT * 0.56), BW, BH, **BTN_GREEN)
-    btn_quit = Button("  Quit",      CX, int(HEIGHT * 0.68), BW, BH, **BTN_RED)
+    #btn_play = Button("  Play Game", CX, int(HEIGHT * 0.56), BW, BH, **BTN_GREEN)
+    #btn_quit = Button("  Quit",      CX, int(HEIGHT * 0.68), BW, BH, **BTN_RED)
+    btn_play  = Button("  Play Game", CX, int(HEIGHT * 0.52), BW, BH, **BTN_GREEN)
+    btn_rules = Button("  Instructions", CX, int(HEIGHT * 0.64), BW, BH, **BTN_BLUE)
+    btn_quit  = Button("  Quit", CX, int(HEIGHT * 0.76), BW, BH, **BTN_RED)
+    
 
     title_y    = int(HEIGHT * 0.22)
     title_size = int(HEIGHT * 0.13)   # big title, scales with screen
@@ -186,6 +190,7 @@ def show_start_screen():
 
         draw_text(gameDisplay, "FRUIT NINJA", title_size, CX, title_y)
         btn_play.draw(gameDisplay)
+        btn_rules.draw(gameDisplay)
         btn_quit.draw(gameDisplay)
         pygame.display.flip()
 
@@ -196,11 +201,53 @@ def show_start_screen():
                 pygame.quit(); sys.exit()
             if btn_play.is_clicked(event):
                 waiting = False
+            if btn_rules.is_clicked(event):   # ✅ FIX
+                show_instructions_screen()
             if btn_quit.is_clicked(event):
                 pygame.quit(); sys.exit()
 
         clock.tick(30)
+def show_instructions_screen():
+    CX = WIDTH // 2
+    BW, BH = int(WIDTH * 0.22), int(HEIGHT * 0.09)
 
+    btn_back = Button("  Back", CX, int(HEIGHT * 0.80), BW, BH, **BTN_BLUE)
+
+    title_size = int(HEIGHT * 0.09)
+    text_size  = int(HEIGHT * 0.045)
+
+    while True:
+        gameDisplay.blit(background, (0, 0))
+        draw_overlay(160)
+
+        draw_text(gameDisplay, "HOW TO PLAY", title_size, CX, int(HEIGHT * 0.15))
+
+        # Instructions text
+        instructions = [
+            "• Move mouse to slice fruits",
+            "• Each fruit gives +1 score",
+            "• Avoid bombs 💣 (lose life)",
+            "• You have 3 lives",
+            "• Game ends when lives = 0",
+            "• Click pause button to stop game"
+        ]
+
+        y_offset = int(HEIGHT * 0.30)
+        for line in instructions:
+            draw_text(gameDisplay, line, text_size, CX, y_offset)
+            y_offset += int(HEIGHT * 0.07)
+
+        btn_back.draw(gameDisplay)
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+
+            if btn_back.is_clicked(event):
+                return
+
+        clock.tick(30)
 # ─────────────────────────────────────────────────────────────────────────────
 # PAUSE SCREEN  – called when pause icon clicked during game
 # ─────────────────────────────────────────────────────────────────────────────
@@ -246,7 +293,6 @@ def show_gameover_screen():
 
     btn_play = Button("  Play Again", CX, int(HEIGHT * 0.56), BW, BH, **BTN_GREEN)
     btn_quit = Button("  Quit",       CX, int(HEIGHT * 0.68), BW, BH, **BTN_RED)
-
     title_y    = int(HEIGHT * 0.22)
     title_size = int(HEIGHT * 0.11)
     score_y    = int(HEIGHT * 0.42)
